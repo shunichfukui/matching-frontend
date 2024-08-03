@@ -1,5 +1,5 @@
 import React, { useState, useEffect, createContext } from 'react';
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
 import CommonLayout from 'components/layouts/CommonLayout';
 import Home from 'components/pages/Home';
@@ -52,12 +52,12 @@ const App: React.FC = () => {
 
   // ユーザーが認証済みかどうかでルーティングを決定
   // 未認証だった場合は「/signin」ページに促す
-  const Private = ({ children }: { children: React.ReactElement }) => {
+  const PrivateRoute = ({ children }: { children: React.ReactElement }) => {
     if (!loading) {
       if (isSignedIn) {
         return children;
       } else {
-        return <Redirect to="/signin" />;
+        return <Navigate to="/signin" />;
       }
     } else {
       return <></>;
@@ -70,15 +70,18 @@ const App: React.FC = () => {
         value={{ loading, setLoading, isSignedIn, setIsSignedIn, currentUser, setCurrentUser }}
       >
         <CommonLayout>
-          <Switch>
-            <Route exact path="/signup" component={SignUp} />
-            <Route exact path="/signin" component={SignIn} />
-            <Private>
-              <Switch>
-                <Route exact path="/" component={Home} />
-              </Switch>
-            </Private>
-          </Switch>
+          <Routes>
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/signin" element={<SignIn />} />
+            <Route
+              path="/"
+              element={
+                <PrivateRoute>
+                  <Home />
+                </PrivateRoute>
+              }
+            />
+          </Routes>
         </CommonLayout>
       </AuthContext.Provider>
     </Router>
