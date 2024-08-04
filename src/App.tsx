@@ -3,17 +3,20 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 
 import CommonLayout from 'components/layouts/CommonLayout';
 import Home from 'components/pages/Home';
+import ChatRooms from 'components/pages/ChatRooms';
+import ChatRoom from 'components/pages/ChatRoom';
+import Users from 'components/pages/Users';
 import SignUp from 'components/pages/SignUp';
 import SignIn from 'components/pages/SignIn';
+import NotFound from 'components/pages/NotFound';
 
 import { getCurrentUser } from 'lib/api/auth';
 import { User } from 'interfaces/index';
 
-// グローバルで扱う変数・関数
+// グローバルで扱う変数・関数（contextで管理）
 export const AuthContext = createContext(
   {} as {
     loading: boolean;
-    setLoading: React.Dispatch<React.SetStateAction<boolean>>;
     isSignedIn: boolean;
     setIsSignedIn: React.Dispatch<React.SetStateAction<boolean>>;
     currentUser: User | undefined;
@@ -26,8 +29,6 @@ const App: React.FC = () => {
   const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<User | undefined>();
 
-  // 認証済みのユーザーがいるかどうかチェック
-  // 確認できた場合はそのユーザーの情報を取得
   const handleGetCurrentUser = async () => {
     try {
       const res = await getCurrentUser();
@@ -67,20 +68,45 @@ const App: React.FC = () => {
   return (
     <Router>
       <AuthContext.Provider
-        value={{ loading, setLoading, isSignedIn, setIsSignedIn, currentUser, setCurrentUser }}
+        value={{ loading, isSignedIn, setIsSignedIn, currentUser, setCurrentUser }}
       >
         <CommonLayout>
           <Routes>
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signin" element={<SignIn />} />
             <Route
-              path="/"
+              path="/home"
               element={
                 <PrivateRoute>
                   <Home />
                 </PrivateRoute>
               }
             />
+            <Route
+              path="/users"
+              element={
+                <PrivateRoute>
+                  <Users />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/chat_rooms"
+              element={
+                <PrivateRoute>
+                  <ChatRooms />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/chatroom/:id"
+              element={
+                <PrivateRoute>
+                  <ChatRoom />
+                </PrivateRoute>
+              }
+            />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </CommonLayout>
       </AuthContext.Provider>
