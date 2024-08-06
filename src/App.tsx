@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import CommonLayout from 'components/layouts/CommonLayout';
 import Home from 'components/pages/Home';
 import ChatRooms from 'components/pages/ChatRooms';
-import ChatRoom from 'components/pages/ChatRoom';
 import Users from 'components/pages/Users';
 import SignUp from 'components/pages/SignUp';
 import SignIn from 'components/pages/SignIn';
@@ -12,6 +11,7 @@ import NotFound from 'components/pages/NotFound';
 
 import { getCurrentUser } from 'lib/api/auth';
 import { User } from 'interfaces/index';
+import ChatRoom from 'components/pages/ChatRoom';
 
 // グローバルで扱う変数・関数（contextで管理）
 export const AuthContext = createContext(
