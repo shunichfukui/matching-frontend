@@ -31,3 +31,25 @@ export const useChatRoomStyles = makeStyles((theme: Theme) => ({
     marginLeft: theme.spacing(1),
   },
 }));
+
+export const useStyles = makeStyles((theme: Theme) => ({
+  avatar: {
+    width: theme.spacing(10),
+    height: theme.spacing(10),
+  },
+  card: {
+    width: 340,
+  },
+  imageUploadBtn: {
+    textAlign: 'right',
+  },
+  input: {
+    display: 'none',
+  },
+  box: {
+    marginBottom: '1.5rem',
+  },
+  preview: {
+    width: '100%',
+  },
+}));
