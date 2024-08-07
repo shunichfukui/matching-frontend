@@ -90,7 +90,7 @@ const Header: React.FC = () => {
       <AppBar position="static">
         <Toolbar>
           <Typography component={Link} to="/users" variant="h6" className={classes.title}>
-            Sample
+            マッチングアプリテンプレ
           </Typography>
           <AuthButtons />
         </Toolbar>
